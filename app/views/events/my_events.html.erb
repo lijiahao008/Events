@@ -1,0 +1,8 @@
+<% @my_events.each do |my_event| %>
+	
+	<div>
+		<h1><%= link_to my_event.title, event_path(my_event) %></h1>
+		<%= link_to 'Edit', edit_event_path(my_event) %>
+	</div>
+
+<% end %>

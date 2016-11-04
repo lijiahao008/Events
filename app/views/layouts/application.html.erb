@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JiahaoLink</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '588729661298611',
+      xfbml      : true,
+      version    : 'v2.7'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0]; 
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-inverse" role="navigation">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a><%= link_to 'JiahaoLink', root_path, class: "navbar-brand" %></a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li><%= link_to 'Browse by categories', categories_path %></li>
+            <li><%= link_to 'Browse by profiles', profiles_path %></li>
+
+          </ul>
+          <%= form_tag search_events_path, method: :get, class:"navbar-form navbar-right", role: "search" do %>
+            <p>
+              <%= text_field_tag :search, params[:search], class:"form-control" %>
+              <%= submit_tag "Search", name: nil, class: "btn btn-default" %>
+            </p>
+          <% end %>
+          <ul class="nav navbar-nav navbar-right">
+            <% if user_signed_in? %>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown">
+                <% if current_user.profile == nil || current_user.profile.name == nil%>
+                  <%= current_user.email %>
+                <% else %>
+                  <%= current_user.profile.name %>
+                <% end %>
+                  <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <% unless current_user.profile == nil %>
+                  <li><a href="/my_events">My events</a></li>
+                <% end %>
+                <li class="divider"></li>
+                <li>
+                  <a>
+                  <% if current_user.profile == nil || current_user.profile.id == nil %>
+                    <%= link_to "Create a profile", new_profile_path %>
+                  <% else %>
+                    <%= link_to "Manage my profile", edit_profile_path(current_user.profile.id) %>
+                  <% end %>
+                  </a>
+                </li>
+                <li class="divider"></li>
+                <li><a><%= link_to 'Sign out', destroy_user_session_path, :method => :delete %></a></li>
+              </ul>
+            </li>
+            <% else %>
+            <li><p class="navbar-text">Already have an account?</p><%= link_to "Sign in", new_user_session_path %></li>
+
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
+          <ul id="login-dp" class="dropdown-menu">
+            <li>
+               <div class="row">
+                  <div class="col-md-12">
+                    Login via
+                    <div class="social-buttons">
+                      <a href="#" class="btn btn-fb"><i class="fa fa-facebook"></i> Facebook</a>
+                      <a href="#" class="btn btn-tw"><i class="fa fa-twitter"></i> Twitter</a>
+                    </div>
+                                    or
+                     <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
+                        <div class="form-group">
+                           <label class="sr-only" for="exampleInputEmail2">Email address</label>
+                           <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email address" required>
+                        </div>
+                        <div class="form-group">
+                           <label class="sr-only" for="exampleInputPassword2">Password</label>
+                           <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password" required>
+                                                 <div class="help-block text-right"><a href="">Forget the password ?</a></div>
+                        </div>
+                        <div class="form-group">
+                           <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                        </div>
+                        <div class="checkbox">
+                           <label>
+                           <input type="checkbox"> keep me logged-in
+                           </label>
+                        </div>
+                     </form>
+                  </div>
+                  <div class="bottom text-center">
+                    New here ? <a href="#"><b>Join Us</b></a>
+                  </div>
+               </div>
+            </li>
+          </ul>
+            </li>
+            <% end %>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+  	<p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+    
+    <%= yield %>
+  </body>
+</html>

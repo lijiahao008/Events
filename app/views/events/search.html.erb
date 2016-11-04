@@ -1,0 +1,17 @@
+<% @events.each do |event| %>
+  <div class="container">
+    <div class="row ">
+      
+      <h2>Categories: <%= event.categories.map { |c| c.name}.join(', ') %></h2>
+      <h2>Title: <%= event.title %></h2>
+      <h2>Description: <%= event.description %></h2>
+      <h2>Time: <%= event.time %></h2>
+      <h2>Location: <%= event.location %></h2>
+      <h3>Belongs to: <%= link_to event.profile.name, profile_path(event.profile_id) %></h3>
+
+      
+      
+      
+    </div>
+  </div>
+<% end %>

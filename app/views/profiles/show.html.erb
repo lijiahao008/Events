@@ -1,0 +1,14 @@
+<div>
+	<%= image_tag @profile.profile_pic.url(:medium) %>
+	<h2><%= @profile.name %></h2>
+</div>
+
+
+
+<% @profile.events.each do |event| %>
+	<h3><%= link_to event.title, event_path(event) %></h3>	
+<% end %>
+
+<% if user_signed_in? && current_user.id == @profile.user_id %>
+	<%= link_to "New Event", new_event_path %>
+<% end %>

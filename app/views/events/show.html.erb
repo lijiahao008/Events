@@ -1,0 +1,33 @@
+<h2>Categories: <%= @event.categories.map { |c| c.name}.join(', ') %></h2>
+<h2>Title: <%= @event.title %></h2>
+<h2>Description: <%= @event.description %></h2>
+<h2>Time: <%= @event.time %></h2>
+<h2>Location: <%= @event.location %></h2>
+
+<h3>Belongs to: <%= link_to @event.profile.name, profile_path(@event.profile_id) %></h3>
+<iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d12108.672641072964!2d<%= @event.longitude %>!3d<%= @event.latitude %>!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1474229551016" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+
+<% unless user_signed_in? && current_user.profile != nil && @event.profile_id == current_user.profile.id %>
+<%= link_to 'Write a review', new_event_review_path(@event), class: "btn btn-info" %> 
+<% end %>
+
+<h2>Reviews:</h2>
+<% if @reviews.size == 0 %>
+
+	<h3>No reviews yet</h3>
+
+<% else %>
+
+	<% @reviews.each do |review| %>
+		<div>
+			<% if review.user.profile != nil %>
+				<%= review.user.profile.name %>:
+			<% else %>
+				<%= review.user.email %>:
+			<% end %>
+			<%= review.score %>
+			<%= review.comment %>
+		</div>
+	<% end %>
+
+<% end %>

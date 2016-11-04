@@ -1,0 +1,8 @@
+<h2>Events:</h2>
+<% @category.events.each do |event| %>
+	<h3><%= link_to event.title, event_path(event) %></h3>	
+<% end %>
+<h2>Profiles:</h2>
+<% @category.profiles.each do |profile| %>
+	<h3><%= link_to profile.name, profile_path(profile) %></h3>	
+<% end %>
